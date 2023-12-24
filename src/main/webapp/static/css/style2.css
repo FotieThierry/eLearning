@@ -1,0 +1,54 @@
+
+ p{
+		color : blue ;
+		 
+		}
+		
+
+#footer {
+  
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 80px;
+  background: 
+  /* color overlay */ 
+    linear-gradient(
+      rgba(240, 212, 0, 0.45), 
+      rgba(0, 0, 0, 0.45)
+    ),
+   
+}
+
+html, html *
+	{
+		position:relative;
+	}
+body
+	{
+		margin: 0;
+	}
+.img_fond
+	{
+		position: fixed;
+		width: 100%;
+		height: 100%;
+	}
+
+
+div#bandeau {
+		width:100%;
+		height:22%;
+		}
+
+div#vide {
+		width:600px;
+		height:5%;
+		}
+
+div#contenuSlide{
+	    margin-left:auto;
+	    margin-right:auto;
+		width:50%;
+		height:80%;
+}
