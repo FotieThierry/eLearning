@@ -4,6 +4,9 @@ package com.fotie.QualitePreform.controller;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
 @Controller
 public class ApplicationController {
 
@@ -38,6 +41,22 @@ public class ApplicationController {
       request.getSession().invalidate();
       return "login";
   }
+
+  // save users
+    @PostMapping("/save-user")
+    public String saveUsers(HttpServletRequest request){
+      // 1- recupere la valeur des champs
+        //2- appel la methode save
+      request.setAttribute("mode", "USER_LIST");
+      return "home";
+    }
+
+    @PostMapping("/save-question")
+    public String saveQuestion(HttpServletRequest request){
+
+      // todo: create view for question liste
+      return "home";
+    }
 	
 }
 
