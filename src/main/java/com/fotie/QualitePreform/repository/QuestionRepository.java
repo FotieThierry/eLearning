@@ -8,5 +8,5 @@ import java.util.List;
 public interface QuestionRepository extends JpaRepository<Questions, Integer> {
 
     List<Questions> findQuestionsByDomaine(String domaine);
-
+   List<Questions> findQuestionsByEpreuve_NomEpreuve(String epreuve);
 }

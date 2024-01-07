@@ -13,4 +13,5 @@ public interface QuestionService {
     Questions getQuestionById(Integer id);
 
     List<Questions> selectAllQuestionByDomain(String domaine);
+    List<Questions> selectAllQuestionByEpreuve(String epreuve);
 }

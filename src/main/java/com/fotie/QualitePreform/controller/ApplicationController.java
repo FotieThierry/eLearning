@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class ApplicationController {
@@ -39,10 +39,26 @@ public class ApplicationController {
         return "home";
     }
 
-    @GetMapping("/eval")
+    @GetMapping("/evaluation1-selectDomain")
     public String getEvaluation(HttpServletRequest request) {
-        request.setAttribute("mode", "EVALUATION_PAGE");
-        return "home";
+        List<Epreuve> epreuveList = epreuveService.getAllEpreuve();
+        request.setAttribute("liste_des_epreuves", epreuveList);
+        return "selectDomainEvaluationPage";
+    }
+
+    @PostMapping("/startEvaluation")
+    public String startEvaluation(HttpServletRequest request) {
+        String nomEpreuve = request.getParameter("epreuve");
+
+        // selectionner les questions de l'epreuve
+        List<Questions> questionsList = serviceQuestionImpl.selectAllQuestionByEpreuve(nomEpreuve);
+        int totalQuestionValue = questionsList.size();
+
+        request.setAttribute("totalQuestion", totalQuestionValue);
+        request.setAttribute("questionList", questionsList);
+        request.setAttribute("nom_Epreuve", nomEpreuve);
+
+        return "startEvaluation";
     }
 
     @GetMapping("/adduser")
@@ -200,18 +216,33 @@ public class ApplicationController {
         String nomEpreuve= request.getParameter("nomEpreuve");
         int temps = Integer.parseInt(request.getParameter("temps"));
 
-        // 1- creer l'epreuve
-        for (int i = 0; i < questionId.length; i++) {
-            //on set l'objet
-            Epreuve epreuveToSave = new Epreuve();
-            epreuveToSave.setNom_epreuve(nomEpreuve);
-            epreuveToSave.setDomaine(domaine);
-            epreuveToSave.setTemps(temps);
-            Questions question = serviceQuestionImpl.getQuestionById(Integer.parseInt(questionId[i]));
-            epreuveToSave.setRf_id_question(question);
+        // verifier si l'épreuve existe déja
+       Epreuve epreuveToAdd =  epreuveService.getEpreuveByName(nomEpreuve);
+       if(epreuveToAdd != null && (epreuveToAdd.getNomEpreuve().equals(nomEpreuve)) ){
+           // stop et on n'enregistrep pas
+           //2- rediger vers la liste des epreuves
+           List<Epreuve> listEpreuve= epreuveService.getAllEpreuve();
+           request.setAttribute("listeEpreuve", listEpreuve);
+           request.setAttribute("mode", "LIST_EPREUVE");
+           return "home";
+       } else {
+           // 1- creer l'epreuve
+           //on set l'objet
+           Epreuve epreuveToSave = new Epreuve();
+           epreuveToSave.setNomEpreuve(nomEpreuve);
+           epreuveToSave.setDomaine(domaine);
+           epreuveToSave.setTemps(temps);
+           List<Questions> listQuestion = new ArrayList<>();
+           for (int i = 0; i < questionId.length; i++) {
+               Questions question = serviceQuestionImpl.getQuestionById(Integer.parseInt(questionId[i]));
+               question.setEpreuve(epreuveToSave);
+               listQuestion.add(question);
+           }
+           epreuveToSave.setRf_id_question(listQuestion);
+           epreuveService.saveEpreuve(epreuveToSave);
+       }
 
-            epreuveService.saveEpreuve(epreuveToSave);
-        }
+
         //2- rediger vers la liste des epreuves
           List<Epreuve> listEpreuve= epreuveService.getAllEpreuve();
           request.setAttribute("listeEpreuve", listEpreuve);

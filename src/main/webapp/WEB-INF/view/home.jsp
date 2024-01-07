@@ -38,7 +38,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/eval"><span class="glyphicon glyphicon-education"></span>
+                    <a class="nav-link" href="/evaluation1-selectDomain"><span class="glyphicon glyphicon-education"></span>
                         Passer une evaluation</a>
                 </li>
 
@@ -537,7 +537,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Nom de l'épreuve: </label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" name="nom_epreuve" value="" required>
+                        <input type="text" class="form-control" name="nomEpreuve" value="" required>
                     </div>
                 </div>
 
@@ -596,6 +596,7 @@
                         <th class="text-center">N°</th>
                         <th class="text-center">Nom</th>
                         <th class="text-center">Domaine</th>
+                        <th class="text-center">Questions</th>
                         <th class="text-center">Durée (Minutes)</th>
                         <th class="text-center">Supprimer</th>
                     </tr>
@@ -605,8 +606,21 @@
                     <c:forEach var="t" items="${listeEpreuve}">
                         <tr>
                             <td class="text-center"><% out.print(i); %></td>
-                            <td class="text-center">${t.nom_epreuve}</td>
+                            <td class="text-center">${t.nomEpreuve}</td>
                             <td class="text-center">${t.domaine}</td>
+                            <td >
+                                <c:forEach var="x" items="${t.rf_id_question}">
+                                    <strong>Question : </strong> ${x.question} <br>
+                                    <strong>Propositions : </strong><br>
+                                    - ${x.proposition1} <br>
+                                    - ${x.proposition2} <br>
+                                    - ${x.proposition3} <br>
+                                    <span class="text-success">
+                                        - ${x.reponse} <br>
+                                </span>
+                                    <br>
+                                </c:forEach>
+                            </td>
                             <td class="text-center">${t.temps}</td>
                             <td class="text-center"><a href="/deleteEpreuve?id=${t.id}"><span class="glyphicon glyphicon-trash text-danger"></span></a></td>
                         </tr>
@@ -620,17 +634,6 @@
         </div>
     </c:when>
 
-    <c:when test="${mode=='MODE_EDIT_EPREUVE'}">
-        <div class="container text-center">
-            <h1> Modification des Epreuves</h1>
-            <hr>
-
-        </div>
-    </c:when>
-
-    <c:when test="${mode=='EVALUATION_PAGE'}">
-        <h1> evalution page</h1>
-    </c:when>
 
 </c:choose>
 

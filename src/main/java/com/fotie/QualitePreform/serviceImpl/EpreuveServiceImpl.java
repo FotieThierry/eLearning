@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -30,5 +31,14 @@ public class EpreuveServiceImpl implements EpreuveService {
     @Override
     public void deleteEpreuve(Integer id) {
         repositoryEpreuve.deleteById(id);
+    }
+
+    @Override
+    public Epreuve getEpreuveByName(String epreuveName) {
+        Optional<Epreuve> epreuve = repositoryEpreuve.findEpreuveByNomEpreuve(epreuveName);
+        if(epreuve.isPresent()){
+            return epreuve.get();
+        }
+        return null;
     }
 }

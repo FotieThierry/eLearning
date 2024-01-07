@@ -43,4 +43,9 @@ public class QuestionServiceImpl implements QuestionService {
     public List<Questions> selectAllQuestionByDomain(String domaine) {
         return repository_for_question.findQuestionsByDomaine(domaine);
     }
+
+    @Override
+    public List<Questions> selectAllQuestionByEpreuve(String epreuve) {
+        return repository_for_question.findQuestionsByEpreuve_NomEpreuve(epreuve);
+    }
 }

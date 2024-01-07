@@ -22,10 +22,15 @@ public class Questions {
     @Column(name = "proposition3")
     private String proposition3;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="rf_id_question")
+    private Epreuve epreuve;
+
 
     public Questions() {
     }
-    public Questions(Integer id, String question, String domaine, String reponse, String proposition1, String proposition2, String proposition3) {
+
+    public Questions(Integer id, String question, String domaine, String reponse, String proposition1, String proposition2, String proposition3, Epreuve epreuve) {
         this.id = id;
         this.question = question;
         this.domaine = domaine;
@@ -33,6 +38,7 @@ public class Questions {
         this.proposition1 = proposition1;
         this.proposition2 = proposition2;
         this.proposition3 = proposition3;
+        this.epreuve = epreuve;
     }
 
     public Integer getId() {
@@ -89,5 +95,13 @@ public class Questions {
 
     public void setProposition3(String proposition3) {
         this.proposition3 = proposition3;
+    }
+
+    public Epreuve getEpreuve() {
+        return epreuve;
+    }
+
+    public void setEpreuve(Epreuve epreuve) {
+        this.epreuve = epreuve;
     }
 }

@@ -10,6 +10,8 @@ public interface EpreuveService {
     List<Epreuve> getAllEpreuve();
 
     void deleteEpreuve(Integer id);
+
+    Epreuve getEpreuveByName(String epreuveName);
 }
 
 
