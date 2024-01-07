@@ -34,7 +34,7 @@
         <h4><label> ${nom_Epreuve}</label></h4>
         <hr>
 
-        <div id="question1Group">
+       <div id="question1Group">
             <label for="question1"> Question 1 : </label>
             <div class="radio">
                 <label>
@@ -62,7 +62,7 @@
 
         </div>
 
-        <div id="question2Group" style="display: none">
+       <div id="question2Group" style="display: none">
             <label for="question2"> Question 2 : </label>
             <div class="radio">
                 <label>
@@ -126,12 +126,12 @@
         </div>
 
     </form>
-
 </div>
 
 <script>
     var currentQuestion = 1;
-    var totalQuestion = ${totalQuestion};
+    var totalQuestion = 3;
+    var listQuestion = null;
 
     if(totalQuestion ==0){
         document.getElementById('nextButton').style.display='none';
@@ -172,6 +172,7 @@
             document.getElementById('nextButton').style.display='block';
         }
     });
+
 
 
 </script>
