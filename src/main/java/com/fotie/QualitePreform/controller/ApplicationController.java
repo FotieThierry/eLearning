@@ -52,13 +52,21 @@ public class ApplicationController {
 
         // selectionner les questions de l'epreuve
         List<Questions> questionsList = serviceQuestionImpl.selectAllQuestionByEpreuve(nomEpreuve);
+        // on recupere la durée de l'épreuve
         int totalQuestionValue = questionsList.size();
 
         request.setAttribute("totalQuestion", totalQuestionValue);
         request.setAttribute("questionList", questionsList);
         request.setAttribute("nom_Epreuve", nomEpreuve);
+        request.setAttribute("timeInSeconds", 10);
 
         return "startEvaluation";
+    }
+
+    @PostMapping("/corrigerEvaluation")
+    public String corrigerEvaluation(HttpServletRequest request){
+
+        return "home";
     }
 
     @GetMapping("/adduser")
