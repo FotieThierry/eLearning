@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.fotie.QualitePreform.model.Epreuve;
 import com.fotie.QualitePreform.model.Questions;
 import com.fotie.QualitePreform.model.Utilisateur;
+import com.fotie.QualitePreform.serviceImpl.EmailServiceImpl;
 import com.fotie.QualitePreform.serviceImpl.EpreuveServiceImpl;
 import com.fotie.QualitePreform.serviceImpl.QuestionServiceImpl;
 import com.fotie.QualitePreform.serviceImpl.UtilisateurServiceImpl;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +27,13 @@ public class ApplicationController {
     private final UtilisateurServiceImpl serviceUtilisateurImpl;
     private final QuestionServiceImpl serviceQuestionImpl;
     private final EpreuveServiceImpl epreuveService;
+    private final EmailServiceImpl emailService;
 
-    public ApplicationController(UtilisateurServiceImpl serviceUtilisateurImpl, QuestionServiceImpl serviceQuestionImpl, EpreuveServiceImpl epreuveService) {
+    public ApplicationController(UtilisateurServiceImpl serviceUtilisateurImpl, QuestionServiceImpl serviceQuestionImpl, EpreuveServiceImpl epreuveService, EmailServiceImpl emailService) {
         this.serviceUtilisateurImpl = serviceUtilisateurImpl;
         this.serviceQuestionImpl = serviceQuestionImpl;
         this.epreuveService = epreuveService;
+        this.emailService = emailService;
     }
 
 
@@ -53,18 +57,70 @@ public class ApplicationController {
         // selectionner les questions de l'epreuve
         List<Questions> questionsList = serviceQuestionImpl.selectAllQuestionByEpreuve(nomEpreuve);
         // on recupere la durée de l'épreuve
+        int tempEpreuve = epreuveService.timeEpreuve(nomEpreuve);
+
         int totalQuestionValue = questionsList.size();
 
         request.setAttribute("totalQuestion", totalQuestionValue);
         request.setAttribute("questionList", questionsList);
         request.setAttribute("nom_Epreuve", nomEpreuve);
-        request.setAttribute("timeInSeconds", 10);
+        request.setAttribute("timeInSeconds", tempEpreuve * 60);
 
         return "startEvaluation";
     }
 
     @PostMapping("/corrigerEvaluation")
-    public String corrigerEvaluation(HttpServletRequest request){
+    public String corrigerEvaluation(HttpServletRequest request) {
+        String nom_epreuve = request.getParameter("nom_epreuve");
+        //ramaining time
+        String remainingTime = request.getParameter("countdown");
+        // exam time
+        String examTime = request.getParameter("exam_time");
+
+        // selectionner les questions de l'epreuve
+        List<Questions> questionsList = serviceQuestionImpl.selectAllQuestionByEpreuve(nom_epreuve);
+
+        int correctAnswer =0;
+        int badAnswer=0;
+        int totalQestion = questionsList.size();
+
+        for(int i=1; i <= questionsList.size(); i++){
+            String questionName = "question"+i;
+            String answer = request.getParameter(questionName);
+            if(questionsList.get(i-1).getReponse().equals(answer)){
+                correctAnswer++;
+            }else{
+                badAnswer++;
+            }
+        }
+
+        StringBuilder message= new StringBuilder();
+        String username = "TALLA";
+        message.append("Bonjour Mr/Madame/mademoisselle " + username +", \n");
+
+       String totalMark = ""+ correctAnswer +" / " + totalQestion;
+        String mention ="";
+        if(correctAnswer == totalQestion){
+            mention = "EXCELENT";
+            message.append("Félicitation !!! vous avez réussi votre examen du " + LocalDate.now() + ". \n");
+            message.append("score : " + totalMark+ ". \n");
+            message.append("Mention : " + mention + ". \n");
+        } else if (correctAnswer <= (totalQestion/2)) {
+            mention = "INSUFFISANT";
+            message.append("désolé vous n'avez pas réussi votre examen du " + LocalDate.now() + ". \n");
+            message.append("score : " + totalMark + ". \n");
+            message.append("Mention : " + mention + ". \n");
+
+        } else if (correctAnswer >= totalQestion/2 && correctAnswer < totalQestion ) {
+            mention = "GOOD";
+            message.append("Félicitation !!! vous avez réussi votre examen du " + LocalDate.now() + ". \n");
+            message.append("score : " + totalMark + ". \n");
+            message.append("Mention : " + mention + ". \n");
+        }
+
+        // envoyer les résultats par mails
+        String userEmail = "rodriguekayem@gmail.com";
+        emailService.sendSimpleMessage(userEmail, message.toString());
 
         return "home";
     }

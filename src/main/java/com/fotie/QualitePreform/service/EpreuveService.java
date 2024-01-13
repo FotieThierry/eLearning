@@ -12,6 +12,8 @@ public interface EpreuveService {
     void deleteEpreuve(Integer id);
 
     Epreuve getEpreuveByName(String epreuveName);
+
+    int timeEpreuve(String epreuveName);
 }
 
 

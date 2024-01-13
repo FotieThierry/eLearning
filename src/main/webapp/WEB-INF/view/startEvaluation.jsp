@@ -32,6 +32,8 @@
     <h1 class="text-center">Evaluation</h1>
 
     <form id="questionForm" action="corrigerEvaluation" method="post">
+        <input type="hidden" name="nom_epreuve" value="${nom_Epreuve}">
+        <input type="hidden" name="exam_time" value="${timeInSeconds}">
 
         <div class="text-right">
             <label>

@@ -14,4 +14,5 @@ public interface EpreuveRepository extends JpaRepository<Epreuve, Integer> {
     //@Query(value = "select * from epreuve where nom_epreuve=:nomEpreuve;", nativeQuery = true)
     Optional<Epreuve> findEpreuveByNomEpreuve(String nomEpreuve);
 
+
 }

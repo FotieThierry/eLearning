@@ -41,4 +41,13 @@ public class EpreuveServiceImpl implements EpreuveService {
         }
         return null;
     }
+
+    @Override
+    public int timeEpreuve(String epreuveName) {
+        Optional<Epreuve> epreuve = repositoryEpreuve.findEpreuveByNomEpreuve(epreuveName);
+        if(epreuve.isPresent()){
+            return epreuve.get().getTemps();
+        }
+        return 0;
+    }
 }
