@@ -96,26 +96,26 @@ public class ApplicationController {
 
         StringBuilder message= new StringBuilder();
         String username = "TALLA";
-        message.append("Bonjour Mr/Madame/mademoisselle " + username +", \n");
+        message.append("Hello dear  " + username +", \n");
 
        String totalMark = ""+ correctAnswer +" / " + totalQestion;
         String mention ="";
         if(correctAnswer == totalQestion){
             mention = "EXCELENT";
-            message.append("Félicitation !!! vous avez réussi votre examen du " + LocalDate.now() + ". \n");
+            message.append("CONGRATULATIONS !!! you succeeded to the test of the" + LocalDate.now() + ". \n");
             message.append("score : " + totalMark+ ". \n");
             message.append("Mention : " + mention + ". \n");
         } else if (correctAnswer <= (totalQestion/2)) {
             mention = "INSUFFISANT";
-            message.append("désolé vous n'avez pas réussi votre examen du " + LocalDate.now() + ". \n");
+            message.append("SORRY!! you failed to succeed the test of the " + LocalDate.now() + ". \n");
             message.append("score : " + totalMark + ". \n");
             message.append("Mention : " + mention + ". \n");
 
         } else if (correctAnswer >= totalQestion/2 && correctAnswer < totalQestion ) {
             mention = "GOOD";
-            message.append("Félicitation !!! vous avez réussi votre examen du " + LocalDate.now() + ". \n");
-            message.append("score : " + totalMark + ". \n");
-            message.append("Mention : " + mention + ". \n");
+            message.append("CONGRATULATIONS !!! you succeeded to the test of the" + LocalDate.now() + ". \n");
+            message.append("Score : " + totalMark + ". \n");
+            message.append("Grade : " + mention + ". \n");
         }
 
         // envoyer les résultats par mails
