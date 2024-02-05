@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card">
-                <form class="box" action="/login" method="POST" >
+                <form class="box" action="/authenticate" method="POST" >
                     <h1>Login</h1>
                     <p class="text-muted"> Entrez votre login et votre mot de passe!</p> 
                     <input type="text" name="login" placeholder="Login"> 

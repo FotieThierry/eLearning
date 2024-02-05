@@ -20,11 +20,12 @@
                 <h1>Oops!</h1>
                 <h2> 404 Not Found</h2>
                 <div class="error-details">
-                    Sorry, an error has occured, Requested page not found!
+                    Sorry, an error has occured, please contact your adminsitrator : kayem@gmai.com
                 </div>
                 <div class="error-actions">
-                    <a href="http://www.jquery2dotnet.com" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
-                        Take Me Home </a><a href="#" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope"></span> Contact Support </a>
+                    <a href="/login" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
+                        click here
+                    </a>
                 </div>
             </div>
         </div>

@@ -28,7 +28,9 @@
 </head>
 
 <body>
-
+<%
+    String nom = (String) session.getAttribute("nom");
+%>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -66,6 +68,12 @@
                     </div>
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/edit-userByUser"><span class="glyphicon glyphicon-cog"></span> <%= nom %>
+                    </a>
+                    <p></p>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="/logout"><span class="glyphicon glyphicon-off"></span> Logout</a>
@@ -251,11 +259,12 @@
 
     <c:when test="${mode == 'MODE_EDIT_UTILISATEUR'}">
         <div class="container text-center">
-            <input type="hidden" name="id" value="${utilisateur_a_modifier.id}">
-            <input type="hidden" name="password" value="${utilisateur_a_modifier.password}">
+
             <h1>Modification de l'utilisateur</h1>
             <hr>
             <form class="form-horizontal" action="update-user" method="post">
+                <input type="hidden" name="id" value="${utilisateur_a_modifier.id}">
+                <input type="hidden" name="password" value="${utilisateur_a_modifier.password}">
                 <div class="form-group">
                     <label class="control-label col-md-3">Nom : </label>
                     <div class="col-md-3">
@@ -291,7 +300,6 @@
                     <label class="control-label col-md-3">Sexe : </label>
                     <div class="col-md-3">
                         <select name="sexe">
-                            <option value="${utilisateur_a_modifier}"></option>
                             <option value="masculin"> Masculin</option>
                             <option value="feminin"> Feminin</option>
                         </select>
@@ -302,7 +310,6 @@
                     <label class="control-label col-md-3">Type : </label>
                     <div class="col-md-3">
                         <select name="type">
-                            <option value="${utilisateur_a_modifier}"></option>
                             <option value="administrateur"> Administrateur</option>
                             <option value="simpleUtilisateur"> Simple utilisateur</option>
                         </select>
@@ -634,7 +641,85 @@
         </div>
     </c:when>
 
+    <c:when test="${mode=='EVALUATION_STATISTICS'}">
+        <div class="container text-center">
+            <p>
+                Hello dear  ${userName}, <br>
+                ${appreciation}. <br>
+                Score : ${score}. <br>
+                Grade : ${grade}. <br>
+            </p>
 
+        </div>
+    </c:when>
+
+    <c:when test="${mode == 'EDIT_USER_BY_USER'}">
+        <div class="container text-center">
+
+            <h1>Modification de l'utilisateur</h1>
+            <hr>
+            <form class="form-horizontal" action="update-user" method="post">
+                <input type="hidden" name="id" value="${utilisateur_a_modifier.id}">
+                <div class="form-group">
+                    <label class="control-label col-md-3">Nom : </label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="nom" value="${utilisateur_a_modifier.nom}"
+                               placeholder="saisir le nom" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Prenom : </label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="prenom" value="${utilisateur_a_modifier.prenom}"
+                               placeholder="saisir le prenom" required>
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                         <label class="control-label col-md-3">Mot de passe :  </label>
+                         <div class="col-md-3">
+                             <input type="password" class="form-control" name="password" value="${utilisateur_a_modifier.password}">
+                         </div>
+                     </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Email : </label>
+                    <div class="col-md-3">
+                        <input type="email" class="form-control" name="email" value="${utilisateur_a_modifier.email}"
+                               placeholder="saisir l'email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Sexe : </label>
+                    <div class="col-md-3">
+                        <select name="sexe">
+                            <option value="masculin"> Masculin</option>
+                            <option value="feminin"> Feminin</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Type : </label>
+                    <div class="col-md-3">
+                        <select name="type">
+                            <option value="administrateur"> Administrateur</option>
+                            <option value="simpleUtilisateur"> Simple utilisateur</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <button class="btn btn-info btn-lg"><span class="glyphicon glyphicon-pencil"></span>Modifier
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </c:when>
 </c:choose>
 
 

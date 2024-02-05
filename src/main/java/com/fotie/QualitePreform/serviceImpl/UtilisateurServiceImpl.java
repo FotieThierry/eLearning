@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -36,4 +37,26 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public Utilisateur getUserById(Integer id) {
         return repositoryUtilisateur.findById(id).get();
     }
+
+    @Override
+    public Optional<Utilisateur> findUserByEmailAndPassword(String email, String password) {
+        return repositoryUtilisateur.findFirstByEmailAndPassword(email, password);
+    }
+
+    @Override
+    public Utilisateur updateUser(Utilisateur user) {
+
+        Utilisateur UserToUpdate = repositoryUtilisateur.findById(user.getId()).orElseThrow(() -> new RuntimeException("user introuvable"));
+        UserToUpdate.setNom(user.getNom());
+        UserToUpdate.setPrenom(user.getPrenom());
+        UserToUpdate.setPassword(user.getPassword());
+        UserToUpdate.setEmail(user.getEmail());
+        UserToUpdate.setSexe(user.getSexe());
+        UserToUpdate.setType(user.getType());
+
+
+       return repositoryUtilisateur.save(UserToUpdate);
+    }
+
+
 }

@@ -2,6 +2,7 @@ package com.fotie.QualitePreform.controller;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 import com.fotie.QualitePreform.model.Epreuve;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ApplicationController {
@@ -36,6 +38,35 @@ public class ApplicationController {
         this.emailService = emailService;
     }
 
+    @GetMapping("/login")
+    public String getLoginPage(){
+        return "login";
+    }
+
+    @PostMapping("/authenticate")
+    public String authenticateUser(HttpServletRequest request, HttpSession session){
+        String login = request.getParameter("login"); // login is email
+        String password = request.getParameter("password");
+
+        //find user with login et password
+        Optional<Utilisateur> userToAuthenticate = serviceUtilisateurImpl.findUserByEmailAndPassword(login, password);
+
+        // if exist return homePage
+        if(userToAuthenticate.isPresent()){
+            // set usser in a session
+            session.setAttribute("nom", userToAuthenticate.get().getNom());
+            session.setAttribute("prenom", userToAuthenticate.get().getPrenom());
+            session.setAttribute("email", userToAuthenticate.get().getEmail());
+            session.setAttribute("id", userToAuthenticate.get().getId());
+            session.setAttribute("type", userToAuthenticate.get().getType());
+            //and retur home page
+            request.setAttribute("mode", "MODE_HOME");
+            return "home";
+        }else{
+            return "errorPage";
+        }
+
+    }
 
     @GetMapping("/home")
     public String getHomePage(HttpServletRequest request) {
@@ -45,6 +76,12 @@ public class ApplicationController {
 
     @GetMapping("/evaluation1-selectDomain")
     public String getEvaluation(HttpServletRequest request) {
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("type").equals("administrateur")){
+            return "errorPage";
+        }
         List<Epreuve> epreuveList = epreuveService.getAllEpreuve();
         request.setAttribute("liste_des_epreuves", epreuveList);
         return "selectDomainEvaluationPage";
@@ -52,6 +89,12 @@ public class ApplicationController {
 
     @PostMapping("/startEvaluation")
     public String startEvaluation(HttpServletRequest request) {
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("type").equals("administrateur")){
+            return "errorPage";
+        }
         String nomEpreuve = request.getParameter("epreuve");
 
         // selectionner les questions de l'epreuve
@@ -95,44 +138,69 @@ public class ApplicationController {
         }
 
         StringBuilder message= new StringBuilder();
-        String username = "TALLA";
+        String nom = (String) request.getSession().getAttribute("nom");
+        String prenom = (String) request.getSession().getAttribute("prenom");
+        String username = nom.concat(" ").concat(prenom);
+
         message.append("Hello dear  " + username +", \n");
 
        String totalMark = ""+ correctAnswer +" / " + totalQestion;
         String mention ="";
+        String appreciation="";
         if(correctAnswer == totalQestion){
-            mention = "EXCELENT";
-            message.append("CONGRATULATIONS !!! you succeeded to the test of the" + LocalDate.now() + ". \n");
+            mention = "EXCELLENT";
+            appreciation = "CONGRATULATIONS !!! you succeeded to the test of the" + LocalDate.now() + ". \n";
+            message.append(appreciation);
             message.append("score : " + totalMark+ ". \n");
             message.append("Mention : " + mention + ". \n");
         } else if (correctAnswer <= (totalQestion/2)) {
-            mention = "INSUFFISANT";
-            message.append("SORRY!! you failed to succeed the test of the " + LocalDate.now() + ". \n");
+            mention = "INSUFFICIENT";
+            appreciation = "SORRY!! you failed to succeed the test of the " + LocalDate.now() + ". \n";
+            message.append(appreciation);
             message.append("score : " + totalMark + ". \n");
             message.append("Mention : " + mention + ". \n");
 
         } else if (correctAnswer >= totalQestion/2 && correctAnswer < totalQestion ) {
             mention = "GOOD";
-            message.append("CONGRATULATIONS !!! you succeeded to the test of the" + LocalDate.now() + ". \n");
+            appreciation = "CONGRATULATIONS !!! you succeeded to the test of the " + LocalDate.now() + ". \n";
+            message.append(appreciation);
             message.append("Score : " + totalMark + ". \n");
             message.append("Grade : " + mention + ". \n");
         }
 
         // envoyer les résultats par mails
-        String userEmail = "rodriguekayem@gmail.com";
+        String userEmail = (String) request.getSession().getAttribute("email"); //"rodriguekayem@gmail.com";
         emailService.sendSimpleMessage(userEmail, message.toString());
+
+        request.setAttribute("mode", "EVALUATION_STATISTICS");
+        request.setAttribute("userName", username);
+        request.setAttribute("score", totalMark);
+        request.setAttribute("grade", mention);
+        request.setAttribute("appreciation", appreciation);
 
         return "home";
     }
 
     @GetMapping("/adduser")
     public String addUser(HttpServletRequest request) {
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
         request.setAttribute("mode", "ADD_USER");
         return "home";
     }
 
     @GetMapping("/getuser")
     public String getUser(HttpServletRequest request) {
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
         List<Utilisateur> userList = serviceUtilisateurImpl.selectAllUser();
         request.setAttribute("listeUtilisateur", userList);
         request.setAttribute("mode", "USER_LIST");
@@ -141,6 +209,12 @@ public class ApplicationController {
 
     @GetMapping("/questionList")
     public String getQuestions(HttpServletRequest request) {
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
         List<Questions> questionList = serviceQuestionImpl.selectAllQuestions();
         request.setAttribute("listQuestion", questionList);
         request.setAttribute("mode", "QUESTION_LIST");
@@ -149,34 +223,63 @@ public class ApplicationController {
 
     @GetMapping("/questionAdd")
     public String createQuestions(HttpServletRequest request) {
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
         request.setAttribute("mode", "QUESTIONS");
         return "home";
     }
 
     @GetMapping("/epreuveAdd")
     public String createEpreuve(HttpServletRequest request) {
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
         request.setAttribute("mode", "CREATE_EPREUVE");
         return "home";
     }
 
     @GetMapping("/epreuveList")
     public String listEpreuve(HttpServletRequest request) {
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
         List<Epreuve>liste = epreuveService.getAllEpreuve();
         request.setAttribute("listeEpreuve", liste);
         request.setAttribute("mode", "LIST_EPREUVE");
         return "home";
     }
 
-
     @GetMapping("/logout")
-  public String logOut(HttpServletRequest request){
-      request.getSession().invalidate();
+  public String logOut(HttpSession session){
+        // remove attribute in session
+        // set usser in a session
+        session.removeAttribute("nom");
+        session.removeAttribute("prenom");
+        session.removeAttribute("email");
+        // invalidate session
+      session.invalidate();
       return "login";
   }
 
   // save users
     @PostMapping("/save-user")
     public String saveUsers(@ModelAttribute Utilisateur utilisateur, BindingResult bindingResult, HttpServletRequest request){
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
         //1- appel la methode save
         serviceUtilisateurImpl.SaveUser(utilisateur);
         //2- recharger la liste des utilisateurs
@@ -188,6 +291,12 @@ public class ApplicationController {
 
     @GetMapping("/delete-user")
     public String deleteUser(@RequestParam Integer id, HttpServletRequest request){
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
         serviceUtilisateurImpl.deleteUser(id);
 
         List<Utilisateur> utilisateurList = serviceUtilisateurImpl.selectAllUser();
@@ -199,6 +308,12 @@ public class ApplicationController {
 
    @GetMapping("/edit-user")
     public String editUser(@RequestParam Integer id, HttpServletRequest request){
+       if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+           return "errorPage";
+       }
+       if(request.getSession().getAttribute("nom") == null){
+           return "errorPage";
+       }
         // 1- recuperer l'utilisateur à partir de son id
         Utilisateur users = serviceUtilisateurImpl.getUserById(id);
         //2- set le user dans la requete pour recuperer dans la view
@@ -211,8 +326,14 @@ public class ApplicationController {
 
    @PostMapping("update-user")
     public String updateUser(@ModelAttribute Utilisateur utilisateur, HttpServletRequest request){
-        serviceUtilisateurImpl.SaveUser(utilisateur);
-        serviceUtilisateurImpl.deleteUser(utilisateur.getId());
+       if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+           return "errorPage";
+       }
+       if(request.getSession().getAttribute("nom") == null){
+           return "errorPage";
+       }
+       serviceUtilisateurImpl.updateUser(utilisateur);
+
         List<Utilisateur> utilisateurList = serviceUtilisateurImpl.selectAllUser();
         request.setAttribute("listeUtilisateur", utilisateurList);
         request.setAttribute("mode", "USER_LIST");
@@ -223,6 +344,12 @@ public class ApplicationController {
     // save question
     @PostMapping("save-question")
     public String saveQuestion(@ModelAttribute Questions questions, HttpServletRequest request){
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
         serviceQuestionImpl.SaveQuestion(questions);
         List<Questions> questionsList = serviceQuestionImpl.selectAllQuestions();
         request.setAttribute("listQuestion", questionsList);
@@ -232,6 +359,12 @@ public class ApplicationController {
 
     @GetMapping("/edit-question")
     public String editQuestion(@RequestParam Integer id, HttpServletRequest request){
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
         Questions quest = serviceQuestionImpl.getQuestionById(id);
         serviceQuestionImpl.SaveQuestion(quest);
         serviceQuestionImpl.deleteQuestion(id);
@@ -242,6 +375,12 @@ public class ApplicationController {
 
     @GetMapping("/delete-question")
     public String deleteQuestion(@RequestParam Integer id, HttpServletRequest request){
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
         serviceQuestionImpl.deleteQuestion(id);
 
         List<Questions> questionList = serviceQuestionImpl.selectAllQuestions();
@@ -253,6 +392,12 @@ public class ApplicationController {
 
    @PostMapping("update-question")
     public String updateQuestion(@ModelAttribute Questions question, HttpServletRequest request){
+       if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+           return "errorPage";
+       }
+       if(request.getSession().getAttribute("nom") == null){
+           return "errorPage";
+       }
         serviceQuestionImpl.SaveQuestion(question);
         serviceQuestionImpl.deleteQuestion(question.getId());
         List<Questions> questionList = serviceQuestionImpl.selectAllQuestions();
@@ -265,6 +410,12 @@ public class ApplicationController {
     // creation des epreuves
     @PostMapping("/create-epreuve1")
     public String getQuestionByDomain(HttpServletRequest request){
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
         String domaine = request.getParameter("domaine");
         List<Questions> questionByDomain = serviceQuestionImpl.selectAllQuestionByDomain(domaine);
 
@@ -276,6 +427,12 @@ public class ApplicationController {
 
     @PostMapping("/create-epreuve2")
     public String createEpreuves2(@RequestParam(value = "questionId", required = false)String [] questionId ,HttpServletRequest request){
+        if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+            return "errorPage";
+        }
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
         String domaine = request.getParameter("domaine");
         String nomEpreuve= request.getParameter("nomEpreuve");
         int temps = Integer.parseInt(request.getParameter("temps"));
@@ -316,11 +473,45 @@ public class ApplicationController {
 
    @GetMapping("/deleteEpreuve")
     public String deleteEpreuve(@RequestParam Integer id, HttpServletRequest request){
+       if(request.getSession().getAttribute("type").equals("simpleUtilisateur")){
+           return "errorPage";
+       }
+       if(request.getSession().getAttribute("nom") == null){
+           return "errorPage";
+       }
         epreuveService.deleteEpreuve(id);
         List<Epreuve> listEpreuve= epreuveService.getAllEpreuve();
         request.setAttribute("listeEpreuve", listEpreuve);
         request.setAttribute("mode", "LIST_EPREUVE");
         return "home";
+    }
+
+    @GetMapping("/edit-userByUser")
+    public String editUserByUser(HttpServletRequest request){
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
+        // 1- recuperer l'utilisateur à partir de son id
+        Integer id = (Integer) request.getSession().getAttribute("id");
+        Utilisateur users = serviceUtilisateurImpl.getUserById(id);
+        //2- set le user dans la requete pour recuperer dans la view
+        request.setAttribute("utilisateur_a_modifier", users);
+        //3- set le mode MODE_EDIT_UTILISATEUR
+        request.setAttribute("mode", "EDIT_USER_BY_USER");
+        return "home";
+    }
+
+    @PostMapping("update-userByUser")
+    public String updateUserByUser(@ModelAttribute Utilisateur utilisateur, HttpServletRequest request){
+        if(request.getSession().getAttribute("nom") == null){
+            return "errorPage";
+        }
+        serviceUtilisateurImpl.updateUser(utilisateur);
+
+
+        request.setAttribute("mode", "MODE_HOME");
+
+        return  "home";
     }
 
 }
