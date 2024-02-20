@@ -19,10 +19,10 @@
             <div class="card">
                 <form class="box" action="/authenticate" method="POST" >
                     <h1>Login</h1>
-                    <p class="text-muted"> Entrez votre login et votre mot de passe!</p> 
+                    <p class="text-muted"> Enter your login and your password!</p>
                     <input type="text" name="login" placeholder="Login"> 
                     <input type="password" name="password" placeholder="mot de passe"> 
-                   		 <a class="forgot text-muted" href="#">mot de passe oublié?</a> 
+                   		 <a class="forgot text-muted" href="#">Have you forgotten your password?</a>
                     <input type="submit" value="Login" >
                   
                 </form>

@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Welcome to eLearning</title>
+    <title>QUIZ MANAGEMENT SYSTEM</title>
     <%-- boostrap import beginning --%>
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/bootstrap-select.min.css" rel="stylesheet">
@@ -36,12 +36,12 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/home"><span class="glyphicon glyphicon-th-large"> ACCEUIL</span></a>
+                    <a class="nav-link" href="/home"><span class="glyphicon glyphicon-th-large"> HOME PAGE</span></a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="/evaluation1-selectDomain"><span class="glyphicon glyphicon-education"></span>
-                        Passer une evaluation</a>
+                        Pass a TEST</a>
                 </li>
 
                 <li class="dropdown">
@@ -49,12 +49,12 @@
                        aria-expanded="false"> <span class="glyphicon glyphicon-user"></span> Administration <span
                             class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/adduser">Ajouter un utilisateur</a></li>
-                        <li><a href="/getuser">Liste des utilisateurs</a></li>
-                        <li><a href="/questionAdd">Creer des questions</a></li>
-                        <li><a href="/questionList">Liste des questions</a></li>
-                        <li><a href="/epreuveAdd">Creer une épreuve</a></li>
-                        <li><a href="/epreuveList">Liste des épreuves</a></li>
+                        <li><a href="/adduser">Add User</a></li>
+                        <li><a href="/getuser">List of Users</a></li>
+                        <li><a href="/questionAdd">Create Questions</a></li>
+                        <li><a href="/questionList">List of Questions</a></li>
+                        <li><a href="/epreuveAdd">Create a Test</a></li>
+                        <li><a href="/epreuveList">List of Tests</a></li>
                     </ul>
                 </li>
             </ul>
@@ -90,7 +90,7 @@
     <c:when test="${mode=='MODE_HOME'}">
         <div class="container">
             <div>
-                <marquee><h2> Bienvenue sur eLearning</h2></marquee>
+                <marquee><h2> QUIZ MANAGEMENT SYSTEM</h2></marquee>
             </div>
             <h3></h3>
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -154,47 +154,47 @@
 
     <c:when test="${mode=='ADD_USER'}">
         <div class="container text-center">
-            <h1>Enregistrement d'un utilisateur</h1>
+            <h1>User Registration</h1>
             <hr>
             <form class="form-horizontal" action="save-user" method="post">
                 <div class="form-group">
-                    <label class="control-label col-md-3">Nom : </label>
+                    <label class="control-label col-md-3">First Name : </label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" name="nom" value="" placeholder="saisir le nom"
+                        <input type="text" class="form-control" name="nom" value="" placeholder="enter first name"
                                required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Prenom : </label>
+                    <label class="control-label col-md-3">Last name : </label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" name="prenom" value="" placeholder="saisir le prenom"
+                        <input type="text" class="form-control" name="prenom" value="" placeholder="enter last name"
                                required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Mot de passe : </label>
+                    <label class="control-label col-md-3">Password : </label>
                     <div class="col-md-3">
                         <input type="password" class="form-control" name="password" value=""
-                               placeholder="saisir le mot de passe" required>
+                               placeholder="enter a password" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-md-3">Email : </label>
                     <div class="col-md-3">
-                        <input type="email" class="form-control" name="email" value="" placeholder="saisir l'email"
+                        <input type="email" class="form-control" name="email" value="" placeholder="enter a valid email"
                                required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Sexe : </label>
+                    <label class="control-label col-md-3">Gender : </label>
                     <div class="col-md-3">
                         <select name="sexe">
-                            <option value="masculin"> Masculin</option>
-                            <option value="feminin"> Feminin</option>
+                            <option value="masculin"> Male</option>
+                            <option value="feminin"> Female</option>
                         </select>
                     </div>
                 </div>
@@ -203,15 +203,15 @@
                     <label class="control-label col-md-3">Type : </label>
                     <div class="col-md-3">
                         <select name="type">
-                            <option value="administrateur"> Administrateur</option>
-                            <option value="simpleUtilisateur"> Simple utilisateur</option>
+                            <option value="administrateur"> Administrator</option>
+                            <option value="simpleUtilisateur"> Simple user</option>
                         </select>
                     </div>
                 </div>
 
 
                 <div class="form-group">
-                    <button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-download"></span>Enregistrer
+                    <button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-download"></span>Save
                     </button>
                 </div>
 
@@ -221,19 +221,19 @@
 
     <c:when test="${mode=='USER_LIST'}">
         <div class="container text-center">
-            <h1> Liste des utilisateurs </h1>
+            <h1> List of users</h1>
             <hr>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered">
                     <thead class="thead-dark">
                     <tr class="success">
-                        <th>Nom</th>
-                        <th>Prenom</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Email</th>
-                        <th>Sexe</th>
+                        <th>Gender</th>
                         <th>Type</th>
-                        <th align="center">Modifier</th>
-                        <th align="center">Supprimer</th>
+                        <th align="center">Modify</th>
+                        <th align="center">Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -260,24 +260,24 @@
     <c:when test="${mode == 'MODE_EDIT_UTILISATEUR'}">
         <div class="container text-center">
 
-            <h1>Modification de l'utilisateur</h1>
+            <h1>User modification</h1>
             <hr>
             <form class="form-horizontal" action="update-user" method="post">
                 <input type="hidden" name="id" value="${utilisateur_a_modifier.id}">
                 <input type="hidden" name="password" value="${utilisateur_a_modifier.password}">
                 <div class="form-group">
-                    <label class="control-label col-md-3">Nom : </label>
+                    <label class="control-label col-md-3">First Name : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="nom" value="${utilisateur_a_modifier.nom}"
-                               placeholder="saisir le nom" required>
+                               placeholder="enter first name" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Prenom : </label>
+                    <label class="control-label col-md-3">Last Name : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="prenom" value="${utilisateur_a_modifier.prenom}"
-                               placeholder="saisir le prenom" required>
+                               placeholder="enter last name" required>
                     </div>
                 </div>
 
@@ -292,16 +292,16 @@
                     <label class="control-label col-md-3">Email : </label>
                     <div class="col-md-3">
                         <input type="email" class="form-control" name="email" value="${utilisateur_a_modifier.email}"
-                               placeholder="saisir l'email" required>
+                               placeholder="enter a valid email" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Sexe : </label>
+                    <label class="control-label col-md-3">Gender : </label>
                     <div class="col-md-3">
                         <select name="sexe">
-                            <option value="masculin"> Masculin</option>
-                            <option value="feminin"> Feminin</option>
+                            <option value="masculin"> Male</option>
+                            <option value="feminin"> Female</option>
                         </select>
                     </div>
                 </div>
@@ -310,15 +310,15 @@
                     <label class="control-label col-md-3">Type : </label>
                     <div class="col-md-3">
                         <select name="type">
-                            <option value="administrateur"> Administrateur</option>
-                            <option value="simpleUtilisateur"> Simple utilisateur</option>
+                            <option value="administrateur"> Administrator</option>
+                            <option value="simpleUtilisateur"> Simple user</option>
                         </select>
                     </div>
                 </div>
 
 
                 <div class="form-group">
-                    <button class="btn btn-info btn-lg"><span class="glyphicon glyphicon-pencil"></span>Modifier
+                    <button class="btn btn-info btn-lg"><span class="glyphicon glyphicon-pencil"></span>Modify
                     </button>
                 </div>
 
@@ -328,62 +328,62 @@
 
     <c:when test="${mode=='QUESTIONS'}">
         <div class="container text-center">
-            <h1>Création des questions</h1>
+            <h1>Question creation</h1>
             <hr>
             <form class="form-horizontal" action="save-question" method="post">
                 <div class="form-group">
-                    <label class="control-label col-md-3">Intitulé de la question : </label>
+                    <label class="control-label col-md-3">Question : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="question" value=""
-                               placeholder="saisir la question" required>
+                               placeholder="type the question" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Domaine : </label>
+                    <label class="control-label col-md-3">Domain : </label>
                     <div class="col-md-3">
                         <select name="domaine">
-                            <option value="anglais"> Anglais</option>
-                            <option value="mathematique"> Mathématiques</option>
-                            <option value="francais"> Français</option>
+                            <option value="anglais"> English</option>
+                            <option value="mathematique"> Maths</option>
+                            <option value="francais"> French</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Réponse : </label>
+                    <label class="control-label col-md-3">Answer : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="reponse" value=""
-                               placeholder="saisir la réponse correcte" required>
+                               placeholder="type the correct answer" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Proposition fausse 1 : </label>
+                    <label class="control-label col-md-3">False option 1 : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="proposition1" value=""
-                               placeholder="saisir la proposition fausse 1" required>
+                               placeholder="type false option 1" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Proposition fausse 2 : </label>
+                    <label class="control-label col-md-3">False option 2 : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="proposition2" value=""
-                               placeholder="saisir la proposition fausse 2" required>
+                               placeholder="type false option 2" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Proposition fausse 3 : </label>
+                    <label class="control-label col-md-3">False option 3 : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="proposition3" value=""
-                               placeholder="saisir la proposition fausse 3" required>
+                               placeholder="type false option 3" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-ok-sign"></span>Enregistrer
+                    <button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-ok-sign"></span>Save
                     </button>
                 </div>
 
@@ -393,17 +393,17 @@
 
     <c:when test="${mode=='QUESTION_LIST'}">
         <div class="container text-center">
-            <h1>Liste des questions</h1>
+            <h1>List of questions</h1>
             <hr>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered">
                     <thead class="thead-dark text-center">
                     <tr class="success">
                         <th class="text-center">N°</th>
-                        <th class="text-center">Domaine</th>
-                        <th class="text-center">Libellé</th>
-                        <th class="text-center">Modifier</th>
-                        <th class="text-center">Supprimer</th>
+                        <th class="text-center">Domain</th>
+                        <th class="text-center">Question</th>
+                        <th class="text-center">Modify</th>
+                        <th class="text-center">Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -414,7 +414,7 @@
                             <td class="text-center">${x.domaine}</td>
                             <td>
                                 <strong>Question : </strong> ${x.question} <br>
-                                <strong>Propositions : </strong><br>
+                                <strong>Options : </strong><br>
                                 - ${x.proposition1} <br>
                                 - ${x.proposition2} <br>
                                 - ${x.proposition3} <br>
@@ -438,67 +438,67 @@
 
     <c:when test="${mode=='MODE_EDIT_QUESTION'}">
         <div class="container text-center">
-            <h1> Modification des questions</h1>
+            <h1> Question modification</h1>
             <hr>
             <form class="form-horizontal" action="save-question" method="post">
                 <input type="hidden" name="id" value="${question_a_modifier.id}">
                 <div class="form-group">
-                    <label class="control-label col-md-3">Intitulé de la question : </label>
+                    <label class="control-label col-md-3">Question : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="question" value="${question_a_modifier.question}"
-                               placeholder="saisir la question" required>
+                               placeholder="type the question" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Domaine : </label>
+                    <label class="control-label col-md-3">Domain : </label>
                     <div class="col-md-3">
                         <select name="domaine">
                             <option value="${question_a_modifier.domaine}">${question_a_modifier.domaine}</option>
-                            <option value="anglais"> Anglais</option>
-                            <option value="mathematique"> Mathématiques</option>
-                            <option value="francais"> Français</option>
+                            <option value="anglais"> English</option>
+                            <option value="mathematique"> Maths</option>
+                            <option value="francais"> French</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Réponse : </label>
+                    <label class="control-label col-md-3">Answer : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="reponse" value="${question_a_modifier.reponse}"
-                               placeholder="saisir la réponse correcte" required>
+                               placeholder="type the correct answer" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Proposition fausse 1 : </label>
+                    <label class="control-label col-md-3">False option 1 : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="propositione1"
-                               value="${question_a_modifier.proposition1}" placeholder="saisir la proposition fausse 1"
+                               value="${question_a_modifier.proposition1}" placeholder="type false option 1"
                                required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Proposition fausse 2 : </label>
+                    <label class="control-label col-md-3">False option 2 : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="proposition2"
-                               value="${question_a_modifier.proposition2}" placeholder="saisir la proposition fausse 2"
+                               value="${question_a_modifier.proposition2}" placeholder="type false option 2"
                                required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Proposition fausse 3 : </label>
+                    <label class="control-label col-md-3">False option 3 : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="proposition3"
-                               value="${question_a_modifier.proposition3}" placeholder="saisir la proposition fausse 3"
+                               value="${question_a_modifier.proposition3}" placeholder="type false option 3"
                                required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-ok-sign"></span>Enregistrer
+                    <button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-ok-sign"></span>Save
                     </button>
                 </div>
 
@@ -508,19 +508,19 @@
 
     <c:when test="${mode== 'CREATE_EPREUVE'}">
         <div class="container text-center">
-            <h1>Création d'une épreuve</h1>
+            <h1>Create a Test</h1>
             <hr>
             <form action="create-epreuve1" method="post">
                 <div class="form-group">
-                    <label class="control-label"> Choisir le domaine : </label>
+                    <label class="control-label"> Choose the Domain : </label>
                     <select name="domaine">
-                        <option value="anglais"> Anglais</option>
-                        <option value="mathematique"> Mathématiques</option>
-                        <option value="francais"> Français</option>
+                        <option value="anglais"> English</option>
+                        <option value="mathematique"> Maths</option>
+                        <option value="francais"> French</option>
                     </select>
                     </label>
 
-                    <button class="btn btn-success"><span class="glyphicon glyphicon-download"></span>Choisir
+                    <button class="btn btn-success"><span class="glyphicon glyphicon-download"></span>Choose
                     </button>
                 </div>
             </form>
@@ -530,19 +530,19 @@
 
     <c:when test="${mode== 'LISTE_QUESTION_BY_DOMAINE'}">
         <div class="container text-center">
-            <marquee><h1>Veuillez selectionner les questions et la durée de l'épreuve puis cliquer sur créer</h1>
+            <marquee><h1>Please select the questions and the duration of the test, then click on create.</h1>
             </marquee>
             <hr>
             <form class="form-horizontal" action="create-epreuve2" method="post">
                 <input type="hidden" name="domaine" value="${domaine_name}">
                 <div class="form-group">
-                    <label class="control-label col-md-3">Durée de l'épreuve (En minutes): </label>
+                    <label class="control-label col-md-3">Test duration (in minutes) : </label>
                     <div class="col-md-3">
                         <input type="number" class="form-control" name="temps" value="1" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3">Nom de l'épreuve: </label>
+                    <label class="control-label col-md-3">Test Name : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="nomEpreuve" value="" required>
                     </div>
@@ -553,8 +553,8 @@
                     <thead class="thead-dark text-center">
                     <tr class="success">
                         <th class="text-center"></th>
-                        <th class="text-center">Domaine</th>
-                        <th class="text-center">Libellé</th>
+                        <th class="text-center">Domain</th>
+                        <th class="text-center">Question</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -581,8 +581,7 @@
                 </table>
 
                 <div class="form-group">
-                    <button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-download"></span>Créer
-                        l'épreuve
+                    <button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-download"></span>Create the Test
                     </button>
                 </div>
 
@@ -594,18 +593,18 @@
 
     <c:when test="${mode== 'LIST_EPREUVE'}">
         <div class="container text-center">
-            <h1>Liste des épreuves</h1>
+            <h1>List of tests</h1>
             <hr>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered">
                     <thead class="thead-dark">
                     <tr class="success">
                         <th class="text-center">N°</th>
-                        <th class="text-center">Nom</th>
-                        <th class="text-center">Domaine</th>
+                        <th class="text-center">Test Name</th>
+                        <th class="text-center">Domain</th>
                         <th class="text-center">Questions</th>
-                        <th class="text-center">Durée (Minutes)</th>
-                        <th class="text-center">Supprimer</th>
+                        <th class="text-center">Duration (Minutes)</th>
+                        <th class="text-center">Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -618,7 +617,7 @@
                             <td >
                                 <c:forEach var="x" items="${t.rf_id_question}">
                                     <strong>Question : </strong> ${x.question} <br>
-                                    <strong>Propositions : </strong><br>
+                                    <strong>Options : </strong><br>
                                     - ${x.proposition1} <br>
                                     - ${x.proposition2} <br>
                                     - ${x.proposition3} <br>
@@ -644,7 +643,7 @@
     <c:when test="${mode=='EVALUATION_STATISTICS'}">
         <div class="container text-center">
             <p>
-                Hello dear  ${userName}, <br>
+                Hello Mr, Mrs ${userName}, <br>
                 ${appreciation}. <br>
                 Score : ${score}. <br>
                 Grade : ${grade}. <br>
@@ -656,28 +655,28 @@
     <c:when test="${mode == 'EDIT_USER_BY_USER'}">
         <div class="container text-center">
 
-            <h1>Modification de l'utilisateur</h1>
+            <h1>User modification</h1>
             <hr>
             <form class="form-horizontal" action="update-user" method="post">
                 <input type="hidden" name="id" value="${utilisateur_a_modifier.id}">
                 <div class="form-group">
-                    <label class="control-label col-md-3">Nom : </label>
+                    <label class="control-label col-md-3">First Name : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="nom" value="${utilisateur_a_modifier.nom}"
-                               placeholder="saisir le nom" required>
+                               placeholder="enter first name" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Prenom : </label>
+                    <label class="control-label col-md-3">Last Name : </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="prenom" value="${utilisateur_a_modifier.prenom}"
-                               placeholder="saisir le prenom" required>
+                               placeholder="enter last name" required>
                     </div>
                 </div>
 
                     <div class="form-group">
-                         <label class="control-label col-md-3">Mot de passe :  </label>
+                         <label class="control-label col-md-3">Password :  </label>
                          <div class="col-md-3">
                              <input type="password" class="form-control" name="password" value="${utilisateur_a_modifier.password}">
                          </div>
@@ -687,16 +686,16 @@
                     <label class="control-label col-md-3">Email : </label>
                     <div class="col-md-3">
                         <input type="email" class="form-control" name="email" value="${utilisateur_a_modifier.email}"
-                               placeholder="saisir l'email" required>
+                               placeholder="enter a valid email" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Sexe : </label>
+                    <label class="control-label col-md-3">Gender : </label>
                     <div class="col-md-3">
                         <select name="sexe">
-                            <option value="masculin"> Masculin</option>
-                            <option value="feminin"> Feminin</option>
+                            <option value="masculin"> Male</option>
+                            <option value="feminin"> Female</option>
                         </select>
                     </div>
                 </div>
@@ -705,15 +704,15 @@
                     <label class="control-label col-md-3">Type : </label>
                     <div class="col-md-3">
                         <select name="type">
-                            <option value="administrateur"> Administrateur</option>
-                            <option value="simpleUtilisateur"> Simple utilisateur</option>
+                            <option value="administrateur"> Administrator</option>
+                            <option value="simpleUtilisateur"> Simple user</option>
                         </select>
                     </div>
                 </div>
 
 
                 <div class="form-group">
-                    <button class="btn btn-info btn-lg"><span class="glyphicon glyphicon-pencil"></span>Modifier
+                    <button class="btn btn-info btn-lg"><span class="glyphicon glyphicon-pencil"></span>Modify
                     </button>
                 </div>
 

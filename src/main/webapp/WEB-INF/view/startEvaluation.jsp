@@ -37,7 +37,7 @@
 
         <div class="text-right">
             <label>
-                <p class="texte-evaluation">Temps restant : <span id="countdown"></span> </p>
+                <p class="texte-evaluation">Remaining time : <span id="countdown"></span> </p>
             </label>
         </div>
 
@@ -52,9 +52,9 @@
 
         <br><br>
         <div class="btn-toolbar">
-            <button id="prevButton" type="button" class="btn btn-default" style="display: none">Précédent</button>
-            <button id="nextButton" type="button" class="btn btn-primary">Suivant</button>
-            <button id="submitButton" type="submit" class="btn btn-success" style="display: none">Soumettre</button>
+            <button id="prevButton" type="button" class="btn btn-default" style="display: none">Previous</button>
+            <button id="nextButton" type="button" class="btn btn-primary">Next</button>
+            <button id="submitButton" type="submit" class="btn btn-success" style="display: none">Submit</button>
         </div>
 
     </form>

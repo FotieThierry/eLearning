@@ -28,11 +28,11 @@
 </head>
 <body>
         <div class="container text-center">
-            <h1>Sélectionner l'Epreuve</h1>
+            <h1>Choose your Question Paper </h1>
             <hr>
             <form action="startEvaluation" method="post">
                 <div class="form-group">
-                    <label class="control-label"> Choisir l'Epreuve : </label>
+                    <label class="control-label"> Choose the TEST : </label>
                     <select name="epreuve">
                         <c:forEach var="a" items="${liste_des_epreuves}">
                             <option value ="${a.nomEpreuve}">${a.nomEpreuve}</option>
