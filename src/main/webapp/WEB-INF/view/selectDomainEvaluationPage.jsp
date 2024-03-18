@@ -40,7 +40,7 @@
                     </select>
                     </label>
 
-                    <button class="btn btn-success"><span class="glyphicon glyphicon-download"></span>Choisir
+                    <button class="btn btn-success"><span class="glyphicon glyphicon-download"></span>Choose
                     </button>
                 </div>
             </form>

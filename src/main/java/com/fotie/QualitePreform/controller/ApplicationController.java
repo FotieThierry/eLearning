@@ -149,7 +149,7 @@ public class ApplicationController {
         String appreciation="";
         if(correctAnswer == totalQestion){
             mention = "EXCELLENT";
-            appreciation = "CONGRATULATIONS !!! you succeeded to the test of the" + LocalDate.now() + ". \n";
+            appreciation = "CONGRATULATIONS !!! you succeeded to the test of the " + LocalDate.now() + ". \n";
             message.append(appreciation);
             message.append("score : " + totalMark+ ". \n");
             message.append("Mention : " + mention + ". \n");
@@ -162,7 +162,7 @@ public class ApplicationController {
 
         } else if (correctAnswer >= totalQestion/2 && correctAnswer < totalQestion ) {
             mention = "GOOD";
-            appreciation = "CONGRATULATIONS !!! you succeeded to the test of the " + LocalDate.now() + ". \n";
+            appreciation = "Well done !!! you almost succeeded to the test of the " + LocalDate.now() + ". \n";
             message.append(appreciation);
             message.append("Score : " + totalMark + ". \n");
             message.append("Grade : " + mention + ". \n");
