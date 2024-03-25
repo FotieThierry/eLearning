@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>QUIZ MANAGEMENT SYSTEM</title>
+    <title>IMPLEMENTATION OF A COMPUTERISED PSYCHOTECHNIC TESTS</title>
     <%-- boostrap import beginning --%>
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/bootstrap-select.min.css" rel="stylesheet">
