@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>QUIZ MANAGEMENT SYSTEM</title>
+    <title>COMPUTERISED PSYCHOTECHNIC TEST</title>
     <%-- boostrap import beginning --%>
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/bootstrap-select.min.css" rel="stylesheet">
@@ -90,7 +90,7 @@
     <c:when test="${mode=='MODE_HOME'}">
         <div class="container">
             <div>
-                <marquee><h2> QUIZ MANAGEMENT SYSTEM</h2></marquee>
+                <marquee><h2> COMPUTERISED PSYCHOTECHNIC TEST</h2></marquee>
             </div>
             <h3></h3>
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -98,7 +98,9 @@
                 <ol class="carousel-indicators">
                     <li data-target="#myCarousel" data-slide-to="insamlogo" class="active"></li>
                     <li data-target="#myCarousel" data-slide-to="book1"></li>
+                    <li data-target="#myCarousel" data-slide-to="quiz1"></li>
                     <li data-target="#myCarousel" data-slide-to="book2"></li>
+                    <li data-target="#myCarousel" data-slide-to="quiz2"></li>
                     <li data-target="#myCarousel" data-slide-to="1"></li>
                     <li data-target="#myCarousel" data-slide-to="2"></li>
                     <li data-target="#myCarousel" data-slide-to="3"></li>
@@ -118,7 +120,17 @@
 
                     <div class="item">
                         <div class="desc">Insam</div>
+                        <img src="images/quiz1.png" alt="Insam" style="width:100%; height: 70%;">
+                    </div>
+
+                    <div class="item">
+                        <div class="desc">Insam</div>
                         <img src="images/book2.jpg" alt="Insam" style="width:100%; height: 70%;">
+                    </div>
+
+                    <div class="item">
+                        <div class="desc">Insam</div>
+                        <img src="images/quiz2.jpg" alt="Insam" style="width:100%; height: 70%;">
                     </div>
 
                     <div class="item">
@@ -340,7 +352,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Domain : </label>
+                    <label class="control-label col-md-3">Test Category : </label>
                     <div class="col-md-3">
                         <select name="domaine">
                             <option value="anglais"> English</option>
@@ -400,7 +412,7 @@
                     <thead class="thead-dark text-center">
                     <tr class="success">
                         <th class="text-center">N°</th>
-                        <th class="text-center">Domain</th>
+                        <th class="text-center">Test Category</th>
                         <th class="text-center">Question</th>
                         <th class="text-center">Modify</th>
                         <th class="text-center">Delete</th>
@@ -451,7 +463,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3">Domain : </label>
+                    <label class="control-label col-md-3">Test Category : </label>
                     <div class="col-md-3">
                         <select name="domaine">
                             <option value="${question_a_modifier.domaine}">${question_a_modifier.domaine}</option>
@@ -553,7 +565,7 @@
                     <thead class="thead-dark text-center">
                     <tr class="success">
                         <th class="text-center"></th>
-                        <th class="text-center">Domain</th>
+                        <th class="text-center">Test Category</th>
                         <th class="text-center">Question</th>
                     </tr>
                     </thead>
@@ -601,7 +613,7 @@
                     <tr class="success">
                         <th class="text-center">N°</th>
                         <th class="text-center">Test Name</th>
-                        <th class="text-center">Domain</th>
+                        <th class="text-center">Test Category</th>
                         <th class="text-center">Questions</th>
                         <th class="text-center">Duration (Minutes)</th>
                         <th class="text-center">Delete</th>
